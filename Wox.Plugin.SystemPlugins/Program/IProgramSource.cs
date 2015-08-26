@@ -29,22 +29,6 @@ namespace Wox.Plugin.SystemPlugins.Program
                 IcoPath = file,
                 ExecutePath = file
             };
-
-            switch (Path.GetExtension(file).ToLower())
-            {
-                case ".exe":
-                    p.ExecuteName = Path.GetFileName(file);
-                    try
-                    {
-                        FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(file);
-                        if (!string.IsNullOrEmpty(versionInfo.FileDescription))
-                        {
-                            p.Title = versionInfo.FileDescription;
-                        }
-                    }
-                    catch (Exception) { }
-                    break;
-            }
             return p;
         }
     }
