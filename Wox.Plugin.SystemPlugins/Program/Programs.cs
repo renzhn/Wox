@@ -27,8 +27,6 @@ namespace Wox.Plugin.SystemPlugins.Program
 
         protected override List<Result> QueryInternal(Query query)
         {
-            if (query.RawQuery.Trim().Length <= 1) return new List<Result>();
-
             var fuzzyMather = FuzzyMatcher.Create(query.RawQuery);
             List<Program> returnList = programs.Where(o => MatchProgram(o, fuzzyMather)).ToList();
             returnList.ForEach(ScoreFilter);

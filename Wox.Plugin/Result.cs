@@ -34,6 +34,8 @@ namespace Wox.Plugin
 
         public int Score { get; set; }
 
+        public bool Selected = false;
+
         /// <summary>
         /// Auto add scores for MRU items
         /// </summary>

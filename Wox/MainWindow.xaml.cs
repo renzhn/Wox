@@ -640,7 +640,7 @@ namespace Wox
                     {
                         HideWox();
                     }
-                    UserSelectedRecordStorage.Instance.Add(result);
+                    UserSelectedRecordStorage.Instance.Add(tbQuery.Text, result);
                 }
             }
         }
@@ -653,11 +653,14 @@ namespace Wox
 
             if (list.Count > 0)
             {
-                //todo:this should be opened to users, it's their choice to use it or not in their workflows
+                string selected_record_subtitle = UserSelectedRecordStorage.Instance.Get(lastQuery);
                 list.ForEach(
                     o =>
                     {
-                        if (o.AutoAjustScore) o.Score += UserSelectedRecordStorage.Instance.GetSelectedCount(o) * 5;
+                        if (o.SubTitle == selected_record_subtitle)
+                        {
+                            o.Selected = true;
+                        }
                     });
                 List<Result> l = list.Where(o => o.OriginQuery != null && o.OriginQuery.RawQuery == lastQuery).ToList();
                 Dispatcher.Invoke(new Action(() =>

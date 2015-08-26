@@ -11,33 +11,26 @@ namespace Wox.Infrastructure.Storage
     public class UserSelectedRecordStorage : JsonStrorage<UserSelectedRecordStorage>
     {
         [JsonProperty]
-        private Dictionary<string, int> records = new Dictionary<string, int>();
+        private Dictionary<string, string> records = new Dictionary<string, string>();
 
         protected override string ConfigName
         {
             get { return "UserSelectedRecords"; }
         }
 
-        public void Add(Result result)
+        public void Add(string query, Result result)
         {
-            if (records.ContainsKey(result.ToString()))
-            {
-                records[result.ToString()] += 1;
-            }
-            else
-            {
-                records.Add(result.ToString(), 1);
-            }
+            records[query] = result.SubTitle;
             Save();
         }
 
-        public int GetSelectedCount(Result result)
+        public string Get(string query)
         {
-            if (records.ContainsKey(result.ToString()))
+            if (records.ContainsKey(query))
             {
-                return records[result.ToString()];
+                return records[query];
             }
-            return 0;
+            return null;
         }
     }
 }

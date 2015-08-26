@@ -41,18 +41,29 @@ namespace Wox
             }
             foreach (var result in results)
             {
-                int position = GetInsertLocation(result.Score);
-                lbResults.Items.Insert(position, result);
+                int position = GetInsertLocation(result.Score, result.Selected);
+                if (position < lbResults.Items.Count)
+                {
+                    lbResults.Items.Insert(position, result);
+                }
+                else
+                {
+                    lbResults.Items.Add(result);
+                }
             }
             lbResults.Margin = lbResults.Items.Count > 0 ? new Thickness { Top = 8 } : new Thickness { Top = 0 };
             SelectFirst();
         }
 
-        private int GetInsertLocation(int currentScore)
+        private int GetInsertLocation(int currentScore, bool top)
         {
+            if (top)
+            {
+                return 0;
+            }
             int location = lbResults.Items.Count;
-            if (lbResults.Items.Count == 0) return 0;
-            if (currentScore > ((Result)lbResults.Items[0]).Score) return 0;
+            if (lbResults.Items.Count == 0) return 1;
+            if (currentScore > ((Result)lbResults.Items[0]).Score) return 1;
 
             for (int index = 1; index < lbResults.Items.Count; index++)
             {
@@ -74,6 +85,9 @@ namespace Wox
                 }
             }
 
+            if (!top) {
+                location++;
+            }
             return location;
         }
 
