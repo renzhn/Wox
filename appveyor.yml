@@ -17,14 +17,6 @@ after_test:
     - ps: .\deploy\nuget\pack.ps1
     - ps: .\deploy\Installer\pack.ps1
 
-deploy:
-    provider: NuGet
-    api_key:
-        secure: yybUOFgBuGVpbmOVZxsurC8OpkClzt9dR+/54WpMWcq6b6oyMatciaelRPnXsjRn
-    artifact: nugetpackage
-    on:
-        branch: master
-
 artifacts:
     - path: Output\Release
       name: release-binary 
