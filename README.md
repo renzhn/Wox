@@ -7,6 +7,8 @@ Changes
 =========
 * System Plugin: Program
     * use file name to match instead of exe file description
+    * user input history have top priority
+    * remove control panel plugin (it has a bad effect on searching program)
 
 
 Download
