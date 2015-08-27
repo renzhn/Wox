@@ -828,7 +828,7 @@ namespace Wox
                     {
                         HideWox();
                     }
-                    UserSelectedRecordStorage.Instance.Add(result);
+                    UserSelectedRecordStorage.Instance.Add(tbQuery.Text, result);
                     QueryHistoryStorage.Instance.Add(tbQuery.Text);
                 }
             }
@@ -840,11 +840,15 @@ namespace Wox
             progressBar.Dispatcher.Invoke(new Action(StopProgress));
             if (list == null || list.Count == 0) return;
 
+            Dictionary<string, UserSelectedRecord> records = UserSelectedRecordStorage.Instance.Get(lastQuery);
             if (list.Count > 0)
             {
                 list.ForEach(o =>
                 {
-                    o.Score += UserSelectedRecordStorage.Instance.GetSelectedCount(o) * 5;
+                    if (o.SubTitle != null && records.ContainsKey(o.SubTitle))
+                    {
+                        o.Score += records[o.SubTitle].count * 80;
+                    }
                 });
                 List<Result> l = list.Where(o => o.OriginQuery != null && o.OriginQuery.RawQuery == lastQuery).ToList();
                 UpdateResultViewInternal(l);

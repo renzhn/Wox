@@ -28,7 +28,6 @@ namespace Wox.Plugin.Program
 
         public List<Result> Query(Query query)
         {
-            
             var fuzzyMather = FuzzyMatcher.Create(query.Search);
             List<Program> returnList = programs.Where(o => MatchProgram(o, fuzzyMather)).ToList();
             returnList.ForEach(ScoreFilter);

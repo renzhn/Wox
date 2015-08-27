@@ -186,7 +186,7 @@ namespace Wox.Plugin.Everything.Everything
         /// <returns></returns>
         public IEnumerable<SearchResult> Search(string keyWord, int offset = 0, int maxCount = 100)
         {
-            if (string.IsNullOrEmpty(keyWord))
+            if (string.IsNullOrEmpty(keyWord) || keyWord.Length <= 1)
                 throw new ArgumentNullException("keyWord");
 
             if (offset < 0)

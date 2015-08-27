@@ -8,10 +8,16 @@ using System.Reflection;
 
 namespace Wox.Storage
 {
+
+    public class UserSelectedRecord {
+        public string action { get; set; }
+        public int count { get; set; }
+    }
+
     public class UserSelectedRecordStorage : JsonStrorage<UserSelectedRecordStorage>
     {
         [JsonProperty]
-        private Dictionary<string, int> records = new Dictionary<string, int>();
+        private Dictionary<string, UserSelectedRecord> records = new Dictionary<string, UserSelectedRecord>();
 
         protected override string ConfigFolder
         {
@@ -23,26 +29,46 @@ namespace Wox.Storage
             get { return "UserSelectedRecords"; }
         }
 
-        public void Add(Result result)
+        public void Add(string query, Result result)
         {
-            if (records.ContainsKey(result.ToString()))
-            {
-                records[result.ToString()] += 1;
-            }
-            else
-            {
-                records.Add(result.ToString(), 1);
+            if(!records.ContainsKey(query)) {
+                UserSelectedRecord record = new UserSelectedRecord();
+                record.action = result.SubTitle;
+                record.count = 1;
+                records[query] = record;
+            } else {
+                UserSelectedRecord record = records[query];
+                if (record.action == result.SubTitle)
+                {
+                    record.count++;
+                }
+                else
+                {
+                    record.action = result.SubTitle;
+                    record.count = 1;
+                }
             }
             Save();
         }
 
-        public int GetSelectedCount(Result result)
+        public Dictionary<string, UserSelectedRecord> Get(string query)
         {
-            if (records.ContainsKey(result.ToString()))
+            Dictionary<string, UserSelectedRecord> selectedRecords = new Dictionary<string, UserSelectedRecord>();
+            foreach (KeyValuePair<string, UserSelectedRecord> record in records)
             {
-                return records[result.ToString()];
+                if (record.Key.StartsWith(query))
+                {
+                    if (!selectedRecords.ContainsKey(record.Value.action))
+                    {
+                        selectedRecords.Add(record.Value.action, record.Value);
+                    }
+                    else if (record.Value.count > selectedRecords[record.Value.action].count)
+                    {
+                        selectedRecords[record.Value.action] = record.Value;
+                    }
+                }
             }
-            return 0;
+            return selectedRecords;
         }
     }
 }
