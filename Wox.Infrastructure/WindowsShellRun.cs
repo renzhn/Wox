@@ -77,7 +77,7 @@ namespace Wox.Infrastructure
         [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
         static extern bool UrlIs(string pszUrl, int UrlIs);
 
-        static void ShellExecCmdLine(IntPtr hInstance, IntPtr hwnd, string command, string startDir, global::System.Diagnostics.ProcessWindowStyle nShow, ShellExecCmdLineFlags dwSeclFlags,bool runAsAdministrator = false,bool leaveCmdOpen = false)
+        static void ShellExecCmdLine(IntPtr hInstance, IntPtr hwnd, string command, string startDir, global::System.Diagnostics.ProcessWindowStyle nShow, ShellExecCmdLineFlags dwSeclFlags,bool runAsAdministrator = false,bool leaveCmdOpen = true)
         {
 	        string cmd = command;
             string args = null;

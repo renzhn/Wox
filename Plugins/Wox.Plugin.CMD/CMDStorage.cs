@@ -12,9 +12,6 @@ namespace Wox.Plugin.CMD
         public bool ReplaceWinR { get; set; }
 
         [JsonProperty]
-        public bool LeaveCmdOpen { get; set; }
-
-        [JsonProperty]
         public Dictionary<string, int> CMDHistory = new Dictionary<string, int>();
 
         protected override string ConfigFolder
