@@ -145,7 +145,7 @@ namespace Wox.Plugin.CMD
 
         private void ExecuteCmd(string cmd, bool runAsAdministrator = false)
         {
-            if (context.API.ShellRun(cmd, runAsAdministrator))
+            if (context.API.ShellRun(cmd.Replace("/", " /"), runAsAdministrator))
                 CMDStorage.Instance.AddCmdHistory(cmd);
         }
 
