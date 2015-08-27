@@ -6,7 +6,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,6 +33,7 @@ using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MenuItem = System.Windows.Forms.MenuItem;
 using MessageBox = System.Windows.MessageBox;
 using ToolTip = System.Windows.Controls.ToolTip;
+using System.Reflection;
 
 namespace Wox
 {
@@ -859,36 +859,6 @@ namespace Wox
             }));
         }
 
-        private Result GetTopMostContextMenu(Result result)
-        {
-            if (TopMostRecordStorage.Instance.IsTopMost(result))
-            {
-                return new Result(GetTranslation("cancelTopMostInThisQuery"), "Images\\down.png")
-                {
-                    PluginDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                    Action = _ =>
-                    {
-                        TopMostRecordStorage.Instance.Remove(result);
-                        ShowMsg("Succeed", "", "");
-                        return false;
-                    }
-                };
-            }
-            else
-            {
-                return new Result(GetTranslation("setAsTopMostInThisQuery"), "Images\\up.png")
-                {
-                    PluginDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                    Action = _ =>
-                    {
-                        TopMostRecordStorage.Instance.AddOrUpdate(result);
-                        ShowMsg("Succeed", "", "");
-                        return false;
-                    }
-                };
-            }
-        }
-
         private void ShowContextMenu(Result result)
         {
             List<Result> results = PluginManager.GetPluginContextMenus(result);
@@ -899,7 +869,7 @@ namespace Wox
                 o.OriginQuery = result.OriginQuery;
             });
 
-            results.Add(GetTopMostContextMenu(result));
+            results.Add(result);
 
             textBeforeEnterContextMenuMode = tbQuery.Text;
             ChangeQueryText("");

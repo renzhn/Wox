@@ -6,7 +6,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Wox.Core.UserSettings;
 using Wox.Plugin;
-using Wox.Storage;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace Wox
@@ -42,28 +41,11 @@ namespace Wox
             }
             foreach (var result in results)
             {
-                int position = 0;
-                if (IsTopMostResult(result))
-                {
-                    result.Score = int.MaxValue;
-                }
-                else
-                {
-                    if (result.Score >= int.MaxValue)
-                    {
-                        result.Score = int.MaxValue - 1;
-                    }
-                    position = GetInsertLocation(result.Score);
-                }
+                int position = GetInsertLocation(result.Score);
                 lbResults.Items.Insert(position, result);
             }
             lbResults.Margin = lbResults.Items.Count > 0 ? new Thickness { Top = 8 } : new Thickness { Top = 0 };
             SelectFirst();
-        }
-
-        private bool IsTopMostResult(Result result)
-        {
-            return TopMostRecordStorage.Instance.IsTopMost(result);
         }
 
         private int GetInsertLocation(int currentScore)
