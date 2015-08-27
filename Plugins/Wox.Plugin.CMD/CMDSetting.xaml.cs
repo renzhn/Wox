@@ -13,19 +13,6 @@ namespace Wox.Plugin.CMD
         private void CMDSetting_OnLoaded(object sender, RoutedEventArgs re)
         {
             cbReplaceWinR.IsChecked = CMDStorage.Instance.ReplaceWinR;
-            cbLeaveCmdOpen.IsChecked = CMDStorage.Instance.LeaveCmdOpen;
-
-            cbLeaveCmdOpen.Checked += (o, e) =>
-            {
-                CMDStorage.Instance.LeaveCmdOpen = true;
-                CMDStorage.Instance.Save();
-            };
-
-            cbLeaveCmdOpen.Unchecked += (o, e) =>
-            {
-                CMDStorage.Instance.LeaveCmdOpen = false;
-                CMDStorage.Instance.Save();
-            };
 
             cbReplaceWinR.Checked += (o, e) =>
             {
