@@ -31,6 +31,9 @@ namespace Wox.Storage
 
         public void Add(string query, Result result)
         {
+            if (result.SubTitle == null) {
+                return;
+            }
             if(!records.ContainsKey(query)) {
                 UserSelectedRecord record = new UserSelectedRecord();
                 record.action = result.SubTitle;
@@ -56,7 +59,7 @@ namespace Wox.Storage
             Dictionary<string, UserSelectedRecord> selectedRecords = new Dictionary<string, UserSelectedRecord>();
             foreach (KeyValuePair<string, UserSelectedRecord> record in records)
             {
-                if (record.Key.StartsWith(query))
+                if (record.Key.StartsWith(query) && record.Value.action != null)
                 {
                     if (!selectedRecords.ContainsKey(record.Value.action))
                     {
