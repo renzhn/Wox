@@ -28,12 +28,29 @@ namespace Wox.Plugin.Program
 
         public List<Result> Query(Query query)
         {
+            List<Program> returnList = new List<Program>();
+            Program preferProgram = null;
+            HashSet<string> pathSet = new HashSet<string>();
+            if (!string.IsNullOrEmpty(query.PreferAction)) {
+                preferProgram = programs.Where(o => o.ExecutePath == query.PreferAction).FirstOrDefault();
+            }
+            if (preferProgram != null) {
+                returnList.Add(preferProgram);
+                pathSet.Add(preferProgram.ExecutePath);
+            }
             var fuzzyMather = FuzzyMatcher.Create(query.Search);
-            List<Program> returnList = programs.Where(o => MatchProgram(o, fuzzyMather)).ToList();
-            returnList.ForEach(ScoreFilter);
-            returnList = returnList.OrderByDescending(o => o.Score).ToList();
+            List<Program>  matchResultList = programs.Where(o => MatchProgram(o, fuzzyMather)).ToList();
+            matchResultList.ForEach(ScoreFilter);
+            matchResultList = matchResultList.OrderByDescending(o => o.Score).ToList();
+            foreach (Program program in matchResultList) {
+                if (!pathSet.Contains(program.ExecutePath))
+                {
+                    returnList.Add(program);
+                    pathSet.Add(program.ExecutePath);
+                }
+            }
 
-            return returnList.Take(3).Select(c => new Result()
+            return returnList.Take(5).Select(c => new Result()
             {
                 Title = c.Title,
                 SubTitle = c.ExecutePath,

@@ -103,6 +103,7 @@ namespace Wox.Plugin
         {
             return RawQuery;
         }
+        public string PreferAction { get; set; } 
 
         [Obsolete("Use Search instead, A plugin developer shouldn't care about action name, as it may changed by users. " +
                   "this property will be removed in v1.3.0")]
@@ -111,11 +112,12 @@ namespace Wox.Plugin
         [Obsolete("Use Search instead, this property will be removed in v1.3.0")]
         public List<string> ActionParameters { get; private set; }
 
-        public Query(string rawQuery)
+        public Query(string rawQuery, string preferAction)
         {
             RawQuery = rawQuery;
             ActionParameters = new List<string>();
             ParseQuery();
+            PreferAction = preferAction;
         }
 
         private void ParseQuery()

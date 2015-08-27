@@ -73,5 +73,23 @@ namespace Wox.Storage
             }
             return selectedRecords;
         }
+        public string GetPreferAction(string query)
+        {
+            string preferAction = null;
+            int count = 0;
+            foreach (KeyValuePair<string, UserSelectedRecord> record in records)
+            {
+                if (record.Value.action == null)
+                {
+                    continue;
+                }
+                if (record.Key.StartsWith(query) && record.Value.count > count)
+                {
+                    preferAction = record.Value.action;
+                    count = record.Value.count;
+                }
+            }
+            return preferAction;
+        }
     }
 }
