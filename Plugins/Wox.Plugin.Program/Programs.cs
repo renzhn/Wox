@@ -34,12 +34,12 @@ namespace Wox.Plugin.Program
             returnList.ForEach(ScoreFilter);
             returnList = returnList.OrderByDescending(o => o.Score).ToList();
 
-            return returnList.Select(c => new Result()
+            return returnList.Take(3).Select(c => new Result()
             {
                 Title = c.Title,
                 SubTitle = c.ExecutePath,
                 IcoPath = c.IcoPath,
-                Score = c.Score,
+                Score = c.Score + 100,
                 ContextData = c,
                 Action = (e) =>
                 {

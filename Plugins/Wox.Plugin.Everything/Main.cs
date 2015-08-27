@@ -68,6 +68,11 @@ namespace Wox.Plugin.Everything
                             return true;
                         };
                         r.ContextData = s;
+                        r.Score = 200 - path.Length;
+                        string filename = Path.GetFileNameWithoutExtension(path);
+                        if (keyword == filename) {
+                            r.Score += 100;
+                        }
                         results.Add(r);
                     }
                 }

@@ -195,12 +195,8 @@ namespace Wox.Plugin.Everything.Everything
             if (maxCount < 0)
                 throw new ArgumentOutOfRangeException("maxCount");
 
-            if (keyWord.StartsWith("@"))
-            {
-                Everything_SetRegex(true);
-                keyWord = keyWord.Substring(1);
-            }
-            Everything_SetSearch(keyWord);
+            Everything_SetRegex(true);
+            Everything_SetSearch("^" + keyWord + ".*\\.exe$");
             Everything_SetOffset(offset);
             Everything_SetMax(maxCount);
 
