@@ -409,11 +409,9 @@ namespace Wox
             open.Click += (o, e) => ShowWox();
             var setting = new MenuItem(GetTranslation("iconTraySettings"));
             setting.Click += (o, e) => OpenSettingDialog();
-            var about = new MenuItem(GetTranslation("iconTrayAbout"));
-            about.Click += (o, e) => OpenSettingDialog("about");
             var exit = new MenuItem(GetTranslation("iconTrayExit"));
             exit.Click += (o, e) => CloseApp();
-            MenuItem[] childen = { open, setting, about, exit };
+            MenuItem[] childen = { open, setting, exit };
             notifyIcon.ContextMenu = new ContextMenu(childen);
         }
 
