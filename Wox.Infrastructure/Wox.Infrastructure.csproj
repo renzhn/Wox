@@ -71,7 +71,6 @@
     <Compile Include="Unidecoder.Characters.cs" />
     <Compile Include="Http\HttpRequest.cs" />
     <Compile Include="Storage\BaseStorage.cs" />
-    <Compile Include="FuzzyMatcher.cs" />
     <Compile Include="Hotkey\GlobalHotkey.cs" />
     <Compile Include="Hotkey\HotkeyModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

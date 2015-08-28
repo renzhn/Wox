@@ -38,10 +38,7 @@ namespace Wox.Plugin.Program
                 returnList.Add(preferProgram);
                 pathSet.Add(preferProgram.ExecutePath);
             }
-            var fuzzyMather = FuzzyMatcher.Create(query.Search);
-            List<Program>  matchResultList = programs.Where(o => MatchProgram(o, fuzzyMather)).ToList();
-            matchResultList.ForEach(ScoreFilter);
-            matchResultList = matchResultList.OrderByDescending(o => o.Score).ToList();
+            List<Program> matchResultList = programs.Where(o => MatchProgram(o, query.Search)).OrderByDescending(o => o.Score).Take(5).OrderBy(o => o.ExecutePath.Length).ToList();
             foreach (Program program in matchResultList) {
                 if (!pathSet.Contains(program.ExecutePath))
                 {
@@ -74,12 +71,12 @@ namespace Wox.Plugin.Program
             return shortcut.TargetPath;
         }
 
-        private bool MatchProgram(Program program, FuzzyMatcher matcher)
+        private bool MatchProgram(Program program, string query)
         {
-            if ((program.Score = matcher.Evaluate(program.Title).Score) > 0) return true;
-            if ((program.Score = matcher.Evaluate(program.PinyinTitle).Score) > 0) return true;
-            if (program.AbbrTitle != null && (program.Score = matcher.Evaluate(program.AbbrTitle).Score) > 0) return true;
-            if (program.ExecuteName != null && (program.Score = matcher.Evaluate(program.ExecuteName).Score) > 0) return true;
+            if (program.ExecuteName != null && (program.Score = StringMatcher.Match(program.ExecuteName, query)) > 0) return true;
+            if ((program.Score = StringMatcher.Match(program.Title, query)) > 0) return true;
+            if (program.AbbrTitle != null && (program.Score = StringMatcher.Match(program.AbbrTitle, query)) > 0) return true;
+            if ((program.Score = StringMatcher.Match(program.PinyinTitle, query)) > 0) return true;
 
             return false;
         }
@@ -178,20 +175,6 @@ namespace Wox.Plugin.Program
                 Type = "AppPathsProgramSource"
             });
             return list;
-        }
-
-        private void ScoreFilter(Program p)
-        {
-            p.Score += p.Source.BonusPoints;
-
-            if (p.Title.Contains("启动") || p.Title.ToLower().Contains("start"))
-                p.Score += 10;
-
-            if (p.Title.Contains("帮助") || p.Title.ToLower().Contains("help") || p.Title.Contains("文档") || p.Title.ToLower().Contains("documentation"))
-                p.Score -= 10;
-
-            if (p.Title.Contains("卸载") || p.Title.ToLower().Contains("uninstall"))
-                p.Score -= 20;
         }
 
         #region ISettingProvider Members
