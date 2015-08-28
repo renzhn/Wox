@@ -17,6 +17,9 @@ namespace Wox.Infrastructure
         {
             if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(candidate)) return 0;
 
+            source = source.ToLower();
+            candidate = candidate.ToLower();
+
             if (source == candidate)
             {
                 return 50;
