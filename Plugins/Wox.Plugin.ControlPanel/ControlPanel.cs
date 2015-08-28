@@ -44,8 +44,7 @@ namespace Wox.Plugin.ControlPanel
 
             foreach (var item in controlPanelItems)
             {
-                var fuzzyMather = FuzzyMatcher.Create(myQuery);
-                if (MatchProgram(item, fuzzyMather))
+                if (MatchProgram(item, myQuery))
                 {
                     results.Add(new Result()
                     {
@@ -73,12 +72,12 @@ namespace Wox.Plugin.ControlPanel
             return panelItems;
         }
 
-        private bool MatchProgram(ControlPanelItem item, FuzzyMatcher matcher)
+        private bool MatchProgram(ControlPanelItem item, string query)
         {
-            if (item.LocalizedString != null && (item.Score = matcher.Evaluate(item.LocalizedString).Score) > 0) return true;
-            if (item.InfoTip != null && (item.Score = matcher.Evaluate(item.InfoTip).Score) > 0) return true;
+            if (item.LocalizedString != null && (item.Score = StringMatcher.Match(item.LocalizedString, query)) > 0) return true;
+            if (item.InfoTip != null && (item.Score = StringMatcher.Match(item.InfoTip, query)) > 0) return true;
 
-            if (item.LocalizedString != null && (item.Score = matcher.Evaluate(item.LocalizedString.Unidecode()).Score) > 0) return true;
+            if (item.LocalizedString != null && (item.Score = StringMatcher.Match(item.LocalizedString.Unidecode(), query)) > 0) return true;
 
             return false;
         }

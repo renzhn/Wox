@@ -17,12 +17,19 @@ namespace Wox.Infrastructure
         {
             if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(candidate)) return 0;
 
-            FuzzyMatcher matcher = FuzzyMatcher.Create(candidate);
-            int score = matcher.Evaluate(source).Score;
-            if (score > 0) return score;
+            if (source == candidate)
+            {
+                return 50;
+            }
+            else if (source.StartsWith(candidate))
+            {
+                return 30;
+            }
+            else if (source.Contains(candidate)) {
+                return 10;
+            }
 
-            score = matcher.Evaluate(source.Unidecode()).Score;
-            return score;
+            return 0;
         }
 
         public static bool IsMatch(string source, string candidate)
