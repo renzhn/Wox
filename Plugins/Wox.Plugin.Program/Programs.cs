@@ -38,9 +38,7 @@ namespace Wox.Plugin.Program
                 returnList.Add(preferProgram);
                 pathSet.Add(preferProgram.ExecutePath);
             }
-            List<Program> matchResultList = programs.Where(o => MatchProgram(o, query.Search)).ToList();
-            matchResultList.ForEach(ScoreFilter);
-            matchResultList = matchResultList.OrderByDescending(o => o.Score).OrderBy(o => o.ExecutePath.Length).ToList();
+            List<Program> matchResultList = programs.Where(o => MatchProgram(o, query.Search)).OrderByDescending(o => o.Score).Take(5).OrderBy(o => o.ExecutePath.Length).ToList();
             foreach (Program program in matchResultList) {
                 if (!pathSet.Contains(program.ExecutePath))
                 {
@@ -177,20 +175,6 @@ namespace Wox.Plugin.Program
                 Type = "AppPathsProgramSource"
             });
             return list;
-        }
-
-        private void ScoreFilter(Program p)
-        {
-            p.Score += p.Source.BonusPoints;
-
-            if (p.Title.Contains("启动") || p.Title.ToLower().Contains("start"))
-                p.Score += 10;
-
-            if (p.Title.Contains("帮助") || p.Title.ToLower().Contains("help") || p.Title.Contains("文档") || p.Title.ToLower().Contains("documentation"))
-                p.Score -= 10;
-
-            if (p.Title.Contains("卸载") || p.Title.ToLower().Contains("uninstall"))
-                p.Score -= 20;
         }
 
         #region ISettingProvider Members
