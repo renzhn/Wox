@@ -17,18 +17,28 @@ namespace Wox.Infrastructure
         {
             if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(candidate)) return 0;
 
-            source = source.ToLower();
-            candidate = candidate.ToLower();
 
             if (source == candidate)
+            {
+                return 60;
+            }
+            else if (source.ToLower() == candidate.ToLower())
             {
                 return 50;
             }
             else if (source.StartsWith(candidate))
             {
+                return 40;
+            }
+            else if (source.ToLower().StartsWith(candidate.ToLower()))
+            {
                 return 30;
             }
             else if (source.Contains(candidate)) {
+                return 20;
+            }
+            else if (source.ToLower().Contains(candidate.ToLower()))
+            {
                 return 10;
             }
 
