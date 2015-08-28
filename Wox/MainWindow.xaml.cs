@@ -466,7 +466,7 @@ namespace Wox
                         if (pnlResult.Dirty) pnlResult.Clear();
                     }, TimeSpan.FromMilliseconds(100), null);
                     queryHasReturn = false;
-                    Query query = new Query(lastQuery, UserSelectedRecordStorage.Instance.GetPreferAction(lastQuery));
+                    Query query = new Query(lastQuery, UserSelectedRecordStorage.Instance.GetPreferAction(lastQuery), UserSettingStorage.Instance.MaxResultsToShow);
                     query.IsIntantQuery = searchDelay == 0;
                     Query(query);
                     Dispatcher.DelayInvoke("ShowProgressbar", originQuery =>
