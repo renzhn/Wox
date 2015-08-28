@@ -40,7 +40,7 @@ namespace Wox.Plugin.Program
             }
             List<Program> matchResultList = programs.Where(o => MatchProgram(o, query.Search)).ToList();
             matchResultList.ForEach(ScoreFilter);
-            matchResultList = matchResultList.OrderByDescending(o => o.Score).ToList();
+            matchResultList = matchResultList.OrderByDescending(o => o.Score).OrderBy(o => o.ExecutePath.Length).ToList();
             foreach (Program program in matchResultList) {
                 if (!pathSet.Contains(program.ExecutePath))
                 {
