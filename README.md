@@ -9,7 +9,7 @@ Changes
     * use file name to match instead of exe file description
     * user input history have higher priority
 * System Plugin: Everything
-    * search exe files only
+    * removed
 
 
 Download
