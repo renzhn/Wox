@@ -35,7 +35,6 @@ namespace Wox.Plugin.Program.ProgramSources
             if (Directory.Exists(baseDirectory))
             {
                 GetAppFromDirectory(baseDirectory, list);
-                FileChangeWatcher.AddWatch(baseDirectory);
             }
             return list;
         }

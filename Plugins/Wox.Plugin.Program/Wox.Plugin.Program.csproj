@@ -55,7 +55,6 @@
     <Compile Include="AddProgramSource.xaml.cs">
       <DependentUpon>AddProgramSource.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FileChangeWatcher.cs" />
     <Compile Include="IProgramSource.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramCacheStorage.cs" />
