@@ -12,8 +12,6 @@ build:
   project: Wox.sln
 after_test:
 - ps: >-
-    .\Deploy\nuget.ps1
-    
     .\Deploy\build-release.ps1
 artifacts:
 - path: 'Wox-*.zip'
